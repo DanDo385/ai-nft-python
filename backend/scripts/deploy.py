@@ -14,16 +14,16 @@ if not web3.isConnected():
 web3.eth.default_account = web3.eth.accounts[0]
 
 # Load ABI and bytecode
-artifacts_dir = os.path.join('backend', 'artifacts')
-with open(os.path.join(artifacts_dir, 'MyContract.abi'), 'r') as abi_file:
+artifacts_dir = os.path.join('/Users/dandoe/Desktop/Code/ai-nft-python/backend', 'artifacts')
+with open(os.path.join(artifacts_dir, 'NFT.abi'), 'r') as abi_file:
     abi = json.load(abi_file)
 
-with open(os.path.join(artifacts_dir, 'MyContract.bytecode'), 'r') as bytecode_file:
+with open(os.path.join(artifacts_dir, 'NFT.bytecode'), 'r') as bytecode_file:
     bytecode = bytecode_file.read()
 
 # Deploy contract
-MyContract = web3.eth.contract(abi=abi, bytecode=bytecode)
-tx_hash = MyContract.constructor().transact()
+NFT = web3.eth.contract(abi=abi, bytecode=bytecode)
+tx_hash = NFT.constructor("MyNFT", "NFT").transact()
 tx_receipt = web3.eth.waitForTransactionReceipt(tx_hash)
 
 # Save contract address

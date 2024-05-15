@@ -6,19 +6,14 @@ import os
 install_solc('0.8.0')
 
 # Load the Solidity contract
-contract_source_code = '''
-pragma solidity ^0.8.0;
-
-contract MyContract {
-    string public greet = "Hello, World!";
-}
-'''
+with open('/Users/dandoe/Desktop/Code/ai-nft-python/backend/contracts/NFT.sol', 'r') as file:
+    contract_source_code = file.read()
 
 # Compile the contract
 compiled_sol = compile_standard({
     "language": "Solidity",
     "sources": {
-        "MyContract.sol": {
+        "NFT.sol": {
             "content": contract_source_code
         }
     },
@@ -32,19 +27,19 @@ compiled_sol = compile_standard({
 })
 
 # Extract ABI and bytecode
-abi = compiled_sol['contracts']['MyContract.sol']['MyContract']['abi']
-bytecode = compiled_sol['contracts']['MyContract.sol']['MyContract']['evm']['bytecode']['object']
+abi = compiled_sol['contracts']['NFT.sol']['NFT']['abi']
+bytecode = compiled_sol['contracts']['NFT.sol']['NFT']['evm']['bytecode']['object']
 
 # Ensure the artifacts directory exists
-artifacts_dir = os.path.join('backend', 'artifacts')
+artifacts_dir = os.path.join('/Users/dandoe/Desktop/Code/ai-nft-python/backend', 'artifacts')
 os.makedirs(artifacts_dir, exist_ok=True)
 
 # Save ABI
-with open(os.path.join(artifacts_dir, 'MyContract.abi'), 'w') as abi_file:
+with open(os.path.join(artifacts_dir, 'NFT.abi'), 'w') as abi_file:
     json.dump(abi, abi_file, indent=4)
 
 # Save bytecode
-with open(os.path.join(artifacts_dir, 'MyContract.bytecode'), 'w') as bytecode_file:
+with open(os.path.join(artifacts_dir, 'NFT.bytecode'), 'w') as bytecode_file:
     bytecode_file.write(bytecode)
 
 print("Compilation successful. ABI and bytecode saved in the artifacts directory.")
